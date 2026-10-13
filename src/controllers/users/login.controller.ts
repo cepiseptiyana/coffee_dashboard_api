@@ -8,21 +8,26 @@ const JWT_SECRET = process.env.JWT_SECRET || "";
 export async function loginUserController(req: Request, res: Response) {
   try {
     const { email, password } = req.body;
-    const result_data_user = await loginUserService({ email, password });
-    console.log("RESULT DATA : ", result_data_user);
+    const result_data = await loginUserService({ email, password });
 
     const token = jwt.sign(
-      { id: result_data_user.id, role: "user" },
+      {
+        id: result_data.id,
+        email: result_data.email,
+        role: "admin",
+      },
       JWT_SECRET,
-      { expiresIn: "1d" },
+      {
+        expiresIn: "8h",
+      },
     );
 
     return res.status(200).json({
       success: true,
       message: "Login berhasil",
       data: {
-        id: result_data_user.id,
-        email: result_data_user.email,
+        id: result_data.id,
+        email: result_data.email,
       },
       token,
     });

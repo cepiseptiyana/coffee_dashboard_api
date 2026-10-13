@@ -28,10 +28,12 @@ export async function loginUserService(payload: {
       throw new Error("EMAIL_NOT_FOUND");
     }
 
-    const isPasswordValid = await bcrypt.compare(
-      payload.password,
-      user.password,
-    );
+    const isPasswordValid = payload.password === user.password;
+
+    // const isPasswordValid = await bcrypt.compare(
+    //   payload.password,
+    //   user.password,
+    // );
 
     if (!isPasswordValid) {
       throw new Error("INVALID_PASSWORD");

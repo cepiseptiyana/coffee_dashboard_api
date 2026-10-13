@@ -5,15 +5,15 @@ import { createUserService } from "@/services/users/register.service.ts";
 export async function registerUserController(req: Request, res: Response) {
   try {
     const { name, email, password } = req.body;
-    const result_data_user = await createUserService({ name, email, password });
+    const result_data = await createUserService({ name, email, password });
 
     return res.status(201).json({
       success: true,
       message: "Registrasi user baru berhasil",
       data: {
-        id: result_data_user.id,
-        email: result_data_user.email,
-        created_at: result_data_user.created_at,
+        id: result_data.id,
+        email: result_data.email,
+        created_at: result_data.created_at,
       },
     });
   } catch (err: any) {

@@ -21,15 +21,15 @@ export async function createUserService(payload: {
   password: string;
 }) {
   try {
-    const existingCustomer = await prisma.user.findUnique({
+    const existingUser = await prisma.user.findUnique({
       where: { email: payload.email },
     });
 
-    if (existingCustomer) {
+    if (existingUser) {
       throw new Error("EMAIL_ALREADY_EXISTS");
     }
 
-    const newCustomer = await prisma.user.create<UserCreateArgs>({
+    const newUser = await prisma.user.create<UserCreateArgs>({
       data: {
         name: payload.name,
         email: payload.email,
@@ -37,7 +37,7 @@ export async function createUserService(payload: {
       },
     });
 
-    return newCustomer;
+    return newUser;
   } catch (err) {
     if (err instanceof Prisma.PrismaClientKnownRequestError) {
       if (err.code === "P2002") {
