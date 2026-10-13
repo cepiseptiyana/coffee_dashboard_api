@@ -1,0 +1,116 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model User {
+  id            Int         @id @default(autoincrement())
+  name          String      @db.VarChar(100)
+  email         String      @unique @db.VarChar(50)
+  password      String      @db.VarChar(255)
+  created_at    DateTime    @default(now()) @map("created_at") 
+   
+  @@map("users")      
+}
+
+model Product {
+  id            String      @id @default(cuid())
+  name          String      @db.VarChar(100)
+  category      String      @db.VarChar(50)
+  price         Decimal     @db.Decimal(12,0)
+  sold          Int         @default(0)
+  stock         Int         @default(0)
+  status        String      @default("tersedia")
+  createdAt     DateTime    @default(now()) @map("created_at")
+  updatedAt     DateTime    @updatedAt  @map("updated_at")
+
+  orderItems    OrderItem[] 
+
+  @@map("products")
+}
+
+model Customer {
+  id            String    @id @default(cuid())
+  name          String    @db.VarChar(100)
+  email         String    @unique @db.VarChar(100)
+  totalOrders   Int       @default(0) @map("total_orders")
+  totalSpent    Decimal   @default(0) @db.Decimal(12,0) @map("total_spent") 
+  memberSince   DateTime  @map("member_since") @db.Date
+  tier          String    @default("Reguler")
+
+  orders Order[]
+
+  @@map("customers")
+}
+
+model Order {
+  id            String      @id @default(cuid())
+  customerId    String?     @map("customer_id")
+  total         Decimal     @db.Decimal(12, 0)
+  channel       String      @default("dine-in") @db.VarChar(20)
+  status        String      @default("diproses") @db.VarChar(20)
+  createdAt     DateTime    @default(now()) @map("created_at")
+
+  customer      Customer?   @relation(fields: [customerId], references: [id])
+  orderItems    OrderItem[]
+  
+  @@index([customerId])
+  @@map("orders")
+}
+
+model OrderItem {
+  id            Int         @id @default(autoincrement())
+  orderId       String      @map("order_id")
+  productId     String      @map("product_id")
+  quantity      Int
+  price         Decimal     @db.Decimal(12, 0)
+
+  order         Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product       Product     @relation(fields: [productId], references: [id])
+
+  @@index([orderId])
+  @@index([productId])
+  @@map("order_items")
+}
+model StatSummary {
+  id            String    @id @default(cuid())
+  title         String    @db.VarChar(100)    
+  value         Decimal   @db.Decimal(12, 0)
+  prefix        String    @default("Rp") @db.VarChar(10)
+  trend         String    @default("up") @db.VarChar(10)
+  trendValue    String    @db.VarChar(10) @map("trend_value")
+  description   String    @db.VarChar(50)
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  @@map("stat_summaries")
+}
+
+model SalesTrend {
+  id            Int       @id @default(autoincrement())
+  date          String    @db.VarChar(20) // Contoh: "01 Jul"
+  revenue       Decimal   @db.Decimal(12, 2)
+  cupsSold      Int       @map("cups_sold")
+
+  @@map("sales_trends")
+}
+
+model HourlyTraffic {
+  id            Int       @id @default(autoincrement())
+  hour          String    @db.VarChar(10) // Contoh: "07:00"
+  customers     Int
+
+  @@map("hourly_traffics")
+}
+
+model ProductCategorySales {
+  category     String     @id @db.VarChar(50) // Contoh: "Espresso Based"
+  value        Int
+
+  @@map("product_category_sales")
+}
+

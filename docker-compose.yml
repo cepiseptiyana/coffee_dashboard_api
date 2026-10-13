@@ -1,0 +1,16 @@
+services:
+  api:
+    build:
+      context: .
+      target: production
+    image: cepiseptiyana/coffee-api:${TAG:-latest}
+    restart: unless-stopped
+    ports:
+      - '${PORT:-4000}:4000'
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      RATE_LIMIT_MAX: ${RATE_LIMIT_MAX:-100}
+      TRUST_PROXY: ${TRUST_PROXY:-0}
