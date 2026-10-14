@@ -3,7 +3,6 @@ import { statSummariesService } from "@/services/statSummaries/statSummaries.ser
 
 export async function statSummariesController(req: Request, res: Response) {
   try {
-    const userId = req.user;
     const result_data = await statSummariesService();
 
     return res.status(200).json({
