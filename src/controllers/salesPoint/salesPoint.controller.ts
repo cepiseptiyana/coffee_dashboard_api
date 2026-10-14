@@ -5,11 +5,10 @@ export async function salesPointController(req: Request, res: Response) {
   try {
     const userId = req.user;
     const result_data = await salesPointService();
-    console.log("ISI RESULT_DATA SALES : ", result_data);
 
     return res.status(200).json({
       success: true,
-      message: "Berhasil mengambil ringkasan data",
+      message: "Success GET data SALES_TREND",
       data: result_data,
     });
   } catch (err: any) {
