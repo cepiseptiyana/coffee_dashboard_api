@@ -23,12 +23,12 @@ export async function ordersService() {
       include: {
         customer: {
           select: {
-            name: true, // Mengambil data nama customer
+            name: true,
           },
         },
         orderItems: {
           include: {
-            product: true, // Mengambil semua kolom dari model Product
+            product: true,
           },
         },
       },
