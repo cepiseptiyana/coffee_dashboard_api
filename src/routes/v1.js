@@ -13,6 +13,7 @@ import { statSummariesController } from "@/controllers/statSummaries/statSummari
 import { categoriesController } from "@/controllers/categories/categories.controller.ts";
 import { trafficController } from "@/controllers/traffic/traffic.controller.ts";
 import { productsController } from "@/controllers/products/products.controller.ts";
+import { ordersController } from "@/controllers/orders/orders.controller.ts";
 
 const router = Router();
 
@@ -55,6 +56,12 @@ router.get(
   "/overview/products",
   validateTokenUser(TokenUserSchema),
   productsController,
+);
+
+router.get(
+  "/overview/orders",
+  validateTokenUser(TokenUserSchema),
+  ordersController,
 );
 
 export default router;
