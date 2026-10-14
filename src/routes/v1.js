@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 import { validateTokenUser } from "@/middlewares/userToken/validate.token.user.ts";
-import { TokenUserSchema } from "@/schema_validate/salesPoint/salesPoint.schema.ts";
+import { TokenUserSchema } from "@/schema_validate/tokenUser/token.user.schema.ts";
 import { registerUserController } from "@/controllers/users/register.controller.ts";
 import { validateUserRegister } from "@/middlewares/users/validate.create.user.ts";
 import { CreateUserSchema } from "@/schema_validate/users/register.schema.ts";
@@ -14,6 +14,7 @@ import { categoriesController } from "@/controllers/categories/categories.contro
 import { trafficController } from "@/controllers/traffic/traffic.controller.ts";
 import { productsController } from "@/controllers/products/products.controller.ts";
 import { ordersController } from "@/controllers/orders/orders.controller.ts";
+import { customersController } from "@/controllers/customers/customers.controller.ts";
 
 const router = Router();
 
@@ -62,6 +63,12 @@ router.get(
   "/overview/orders",
   validateTokenUser(TokenUserSchema),
   ordersController,
+);
+
+router.get(
+  "/overview/customers",
+  validateTokenUser(TokenUserSchema),
+  customersController,
 );
 
 export default router;

@@ -16,6 +16,10 @@ const prisma = new PrismaClient({ adapter });
 
 export async function categoriesService() {
   try {
+    if (!prisma) {
+      throw new Error("DATABASE_CLIENT_NOT_INITIALIZED");
+    }
+
     const data = await prisma.productCategorySales.findMany({
       orderBy: {
         category: "asc",
@@ -25,8 +29,12 @@ export async function categoriesService() {
     return data;
   } catch (err) {
     if (err instanceof Prisma.PrismaClientKnownRequestError) {
+      if (err.code === "P2021") {
+        throw new Error("TABLE_NOT_FOUND_OR_INVALID_NAME");
+      }
+
       if (err.code === "P2002") {
-        throw new Error("USER_TOKEN_NOT_FOUND");
+        throw new Error("DATA_PRODUCT_CATEGORY_NOT_FOUND");
       }
     }
 

@@ -13,10 +13,17 @@ export async function categoriesController(req: Request, res: Response) {
   } catch (err: any) {
     console.error("🔥 DETAIL ERROR BACKEND:", err);
 
-    if (err.message === "USER_NOT_FOUND") {
+    if (err.message === "TABLE_NOT_FOUND_OR_INVALID_NAME") {
       return res.status(404).json({
         success: false,
-        message: "Pengguna tidak ditemukan",
+        message: "TABLE_NOT_FOUND_OR_INVALID_NAME",
+      });
+    }
+
+    if (err.message === "DATA_PRODUCT_CATEGORY_NOT_FOUND") {
+      return res.status(404).json({
+        success: false,
+        message: "DATA_PRODUCT_CATEGORY_NOT_FOUND",
       });
     }
 

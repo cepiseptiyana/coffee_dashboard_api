@@ -76,6 +76,7 @@ model OrderItem {
   @@index([productId])
   @@map("order_items")
 }
+
 model StatSummary {
   id            String    @id @default(cuid())
   title         String    @db.VarChar(100)    
@@ -92,7 +93,7 @@ model StatSummary {
 
 model SalesTrend {
   id            Int       @id @default(autoincrement())
-  date          String    @db.VarChar(20) // Contoh: "01 Jul"
+  date          String    @db.VarChar(20) 
   revenue       Decimal   @db.Decimal(12, 2)
   cupsSold      Int       @map("cups_sold")
 
@@ -101,14 +102,14 @@ model SalesTrend {
 
 model HourlyTraffic {
   id            Int       @id @default(autoincrement())
-  hour          String    @db.VarChar(10) // Contoh: "07:00"
+  hour          String    @db.VarChar(10) 
   customers     Int
 
   @@map("hourly_traffics")
 }
 
 model ProductCategorySales {
-  category     String     @id @db.VarChar(50) // Contoh: "Espresso Based"
+  category     String     @id @db.VarChar(50) 
   value        Int
 
   @@map("product_category_sales")
