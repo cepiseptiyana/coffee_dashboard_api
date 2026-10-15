@@ -13,10 +13,31 @@ export async function trafficController(req: Request, res: Response) {
   } catch (err: any) {
     console.error("🔥 DETAIL ERROR BACKEND:", err);
 
-    if (err.message === "USER_NOT_FOUND") {
+    if (err.message === "TABLE_NOT_FOUND") {
       return res.status(404).json({
         success: false,
-        message: "Pengguna tidak ditemukan",
+        message: "TABLE_NOT_FOUND",
+      });
+    }
+
+    if (err.message === "COLUMN_NOT_FOUND") {
+      return res.status(404).json({
+        success: false,
+        message: "COLUMN_NOT_FOUND",
+      });
+    }
+
+    if (err.message === "INCONSISTENT_DATA") {
+      return res.status(404).json({
+        success: false,
+        message: "INCONSISTENT_DATA",
+      });
+    }
+
+    if (err.message === "DB_POOL_TIMEOUT") {
+      return res.status(404).json({
+        success: false,
+        message: "DB_POOL_TIMEOUT",
       });
     }
 

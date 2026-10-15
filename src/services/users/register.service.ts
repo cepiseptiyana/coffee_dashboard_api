@@ -40,9 +40,33 @@ export async function createUserService(payload: {
     return newUser;
   } catch (err) {
     if (err instanceof Prisma.PrismaClientKnownRequestError) {
-      if (err.code === "P2002") {
-        throw new Error("EMAIL_ALREADY_EXISTS");
+      switch (err.code) {
+        case "P2002":
+          throw new Error("EMAIL_ALREADY_EXISTS");
+        case "P2000":
+          throw new Error("VALUE_TOO_LONG");
+        case "P2011":
+        case "P2012":
+          throw new Error("REQUIRED_FIELD_MISSING");
+        case "P2021":
+          throw new Error("TABLE_NOT_FOUND");
+        case "P2022":
+          throw new Error("COLUMN_NOT_FOUND");
+        case "P2024":
+          throw new Error("DB_POOL_TIMEOUT");
+        default:
+          throw err;
       }
+    }
+
+    // Database mati, host atau password salah
+    if (err instanceof Prisma.PrismaClientInitializationError) {
+      throw new Error("DB_UNREACHABLE");
+    }
+
+    // Argumen query salah
+    if (err instanceof Prisma.PrismaClientValidationError) {
+      throw new Error("INVALID_QUERY");
     }
 
     throw err;

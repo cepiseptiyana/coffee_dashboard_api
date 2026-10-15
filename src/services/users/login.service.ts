@@ -30,11 +30,6 @@ export async function loginUserService(payload: {
 
     const isPasswordValid = payload.password === user.password;
 
-    // const isPasswordValid = await bcrypt.compare(
-    //   payload.password,
-    //   user.password,
-    // );
-
     if (!isPasswordValid) {
       throw new Error("INVALID_PASSWORD");
     }
@@ -42,9 +37,28 @@ export async function loginUserService(payload: {
     return user;
   } catch (err) {
     if (err instanceof Prisma.PrismaClientKnownRequestError) {
-      if (err.code === "P2002") {
-        throw new Error("EMAIL_NOT_FOUND");
+      switch (err.code) {
+        case "P2021":
+          throw new Error("TABLE_NOT_FOUND");
+        case "P2022":
+          throw new Error("COLUMN_NOT_FOUND");
+        case "P2023":
+          throw new Error("INCONSISTENT_DATA");
+        case "P2024":
+          throw new Error("DB_POOL_TIMEOUT");
+        default:
+          throw err;
       }
+    }
+
+    // Database mati, host atau password salah
+    if (err instanceof Prisma.PrismaClientInitializationError) {
+      throw new Error("DB_UNREACHABLE");
+    }
+
+    // Argumen query salah (misalnya email: undefined)
+    if (err instanceof Prisma.PrismaClientValidationError) {
+      throw new Error("INVALID_QUERY");
     }
 
     throw err;

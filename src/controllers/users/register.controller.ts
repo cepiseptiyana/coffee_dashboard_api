@@ -26,6 +26,27 @@ export async function registerUserController(req: Request, res: Response) {
       });
     }
 
+    if (err.message === "VALUE_TOO_LONG") {
+      return res.status(400).json({
+        success: false,
+        message: "Nama, email, atau kata sandi terlalu panjang.",
+      });
+    }
+
+    if (err.message === "REQUIRED_FIELD_MISSING") {
+      return res.status(400).json({
+        success: false,
+        message: "Data yang wajib diisi belum lengkap.",
+      });
+    }
+
+    if (err.message === "DB_POOL_TIMEOUT" || err.message === "DB_UNREACHABLE") {
+      return res.status(503).json({
+        success: false,
+        message: "Layanan sedang sibuk, coba lagi sebentar.",
+      });
+    }
+
     return res.status(500).json({
       success: false,
       message: "Terjadi kesalahan internal pada server.",

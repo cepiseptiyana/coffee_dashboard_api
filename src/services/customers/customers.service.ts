@@ -23,25 +23,20 @@ export async function customersService() {
       include: {
         orders: true,
       },
-      //   include: {
-      //     customer: {
-      //       select: {
-      //         name: true,
-      //       },
-      //     },
-      //     orderItems: {
-      //       include: {
-      //         product: true,
-      //       },
-      //     },
-      //   },
     });
 
     return data;
-  } catch (err) {
+  } catch (err: any) {
     if (err instanceof Prisma.PrismaClientKnownRequestError) {
-      if (err.code === "P2002") {
-        throw new Error("USER_TOKEN_NOT_FOUND");
+      switch (err.code) {
+        case "P2021":
+          return new Error("TABLE_NOT_FOUND");
+        case "P2022":
+          return new Error("COLUMN_NOT_FOUND");
+        case "P2023":
+          return new Error("INCONSISTENT_DATA");
+        case "P2024":
+          return new Error("DB_POOL_TIMEOUT");
       }
     }
 

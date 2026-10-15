@@ -13,17 +13,31 @@ export async function categoriesController(req: Request, res: Response) {
   } catch (err: any) {
     console.error("🔥 DETAIL ERROR BACKEND:", err);
 
-    if (err.message === "TABLE_NOT_FOUND_OR_INVALID_NAME") {
+    if (err.message === "TABLE_NOT_FOUND") {
       return res.status(404).json({
         success: false,
-        message: "TABLE_NOT_FOUND_OR_INVALID_NAME",
+        message: "TABLE_NOT_FOUND",
       });
     }
 
-    if (err.message === "DATA_PRODUCT_CATEGORY_NOT_FOUND") {
+    if (err.message === "COLUMN_NOT_FOUND") {
       return res.status(404).json({
         success: false,
-        message: "DATA_PRODUCT_CATEGORY_NOT_FOUND",
+        message: "COLUMN_NOT_FOUND",
+      });
+    }
+
+    if (err.message === "INCONSISTENT_DATA") {
+      return res.status(404).json({
+        success: false,
+        message: "INCONSISTENT_DATA",
+      });
+    }
+
+    if (err.message === "DB_POOL_TIMEOUT") {
+      return res.status(404).json({
+        success: false,
+        message: "DB_POOL_TIMEOUT",
       });
     }
 
