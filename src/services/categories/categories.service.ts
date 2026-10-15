@@ -34,6 +34,13 @@ export async function categoriesService() {
           return new Error("INCONSISTENT_DATA");
         case "P2024":
           return new Error("DB_POOL_TIMEOUT");
+        // untuk operasi tulis (dipakai di register dan lainnya)
+        case "P2002":
+          return new Error("UNIQUE_VIOLATION");
+        case "P2003":
+          return new Error("FOREIGN_KEY_FAILED");
+        case "P2025":
+          return new Error("RECORD_NOT_FOUND");
       }
     }
 

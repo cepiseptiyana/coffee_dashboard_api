@@ -27,6 +27,7 @@ export async function loginUserController(req: Request, res: Response) {
       message: "Login berhasil",
       data: {
         id: result_data.id,
+        name: result_data.name,
         email: result_data.email,
       },
       token,

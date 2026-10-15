@@ -19,9 +19,6 @@ export function validateTokenUser(schema: ZodObject) {
       });
 
       const authHeader = req.headers.authorization;
-      {
-        authorization: "Bearer qwcoekoqwk2ec2";
-      }
 
       if (!authHeader || !authHeader.startsWith("Bearer ")) {
         return res.status(401).json({
@@ -29,8 +26,6 @@ export function validateTokenUser(schema: ZodObject) {
           message: "Akses ditolak. Token tidak disediakan atau format salah.",
         });
       }
-
-      ["Bearer", "qwcoekoqwk2ec2"];
 
       const parts = authHeader.split(" ");
       const token = parts[1];

@@ -15,6 +15,7 @@ import { trafficController } from "@/controllers/traffic/traffic.controller.ts";
 import { productsController } from "@/controllers/products/products.controller.ts";
 import { ordersController } from "@/controllers/orders/orders.controller.ts";
 import { customersController } from "@/controllers/customers/customers.controller.ts";
+import { userController } from "@/controllers/user/user.controller.ts";
 
 const router = Router();
 
@@ -28,6 +29,7 @@ router.post(
   validateUserLogin(LoginUserSchema),
   loginUserController,
 );
+router.get("/auth/getUser", validateTokenUser(TokenUserSchema), userController);
 
 router.get(
   "/overview/stat_summaries",
