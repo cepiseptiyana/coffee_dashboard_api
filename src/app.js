@@ -3,11 +3,11 @@ import cors from "cors";
 import helmet from "helmet";
 import { config } from "./config/index.js";
 
-import { requestId } from "./middlewares/request-id.js";
-import { httpLogger } from "./middlewares/http-logger.js";
-import { apiRateLimiter } from "./middlewares/rate-limit.js";
-import { notFound } from "./middlewares/not-found.js";
 import { errorHandler } from "./middlewares/error-handler.js";
+import { httpLogger } from "./middlewares/http-logger.js";
+import { notFound } from "./middlewares/not-found.js";
+import { apiRateLimiter } from "./middlewares/rate-limit.js";
+import { requestId } from "./middlewares/request-id.js";
 
 import healthRoutes from "./modules/health/health.routes.js";
 import apiRoutes from "./routes/index.js";
